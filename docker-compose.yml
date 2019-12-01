@@ -1,0 +1,84 @@
+# Copyright (c) 2019 FEROX YT EIRL, www.ferox.yt <devops@ferox.yt>
+# Copyright (c) 2019 Jérémy WALTHER <jeremy.walther@golflima.net>
+# See <https://github.com/frxyt/webdevenv-php> for details.
+
+version: '3.7'
+
+networks: 
+  webdevenv:
+    external: 
+      name: webdevenv
+
+volumes:
+  xhgui-vendor:
+
+services:
+
+  adminer:
+    image: adminer:4.7.5-standalone
+    container_name: webdevenv-adminer
+    labels: 
+      - "traefik.enable=true"
+      - "traefik.http.routers.webdevenv-adminer.entrypoints=http"
+      - "traefik.http.routers.webdevenv-adminer.rule=Host(`adminer.webdevenv.localhost`)"
+      - "traefik.http.services.webdevenv-adminer.loadbalancer.server.port=8080"
+    networks: 
+      - webdevenv
+    restart: always
+
+  maildev:
+    image: djfarrelly/maildev:1.1.0
+    container_name: webdevenv-maildev
+    labels: 
+      - "traefik.enable=true"
+      - "traefik.http.routers.webdevenv-maildev.entrypoints=http"
+      - "traefik.http.routers.webdevenv-maildev.rule=Host(`maildev.webdevenv.localhost`)"
+      - "traefik.http.services.webdevenv-maildev.loadbalancer.server.port=8080"
+    networks: 
+      - webdevenv
+    restart: always
+
+  traefik:
+    image: traefik:2.0.5
+    container_name: webdevenv-traefik
+    command: 
+      - --accesslog=true
+      - --accesslog.filepath=/var/log/traefik/access.log
+      - --api.insecure=true
+      - --entrypoints.http.address=:80
+      - --log=true
+      - --log.filepath=/var/log/traefik/traefik.log
+      - --metrics.prometheus=true
+      - --ping=true
+      - --providers.docker=true
+      - --providers.docker.exposedbydefault=false
+      - --providers.docker.network=webdevenv
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.webdevenv-traefik.entrypoints=http"
+      - "traefik.http.routers.webdevenv-traefik.rule=Host(`traefik.webdevenv.localhost`)"
+      - "traefik.http.services.webdevenv-traefik.loadbalancer.server.port=8080"
+    networks:
+      - webdevenv
+    ports:
+      - "127.0.0.1:80:80"
+    restart: always
+    volumes:
+      - ./var/log/traefik:/var/log/traefik:rw
+      - //var/run/docker.sock:/var/run/docker.sock:ro
+
+  xhgui:
+    image: frxyt/xhgui-dev
+    container_name: webdevenv-xhgui
+    environment:
+      - TZ=Europe/Zurich
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.webdevenv-xhgui.entrypoints=http"
+      - "traefik.http.routers.webdevenv-xhgui.rule=Host(`xhgui.webdevenv.localhost`)"
+      - "traefik.http.services.webdevenv-xhgui.loadbalancer.server.port=80"
+    networks:
+      - webdevenv
+    restart: always
+    volumes:
+      - xhgui-vendor:/xhgui/vendor:rw
