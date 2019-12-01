@@ -10,7 +10,7 @@ Provides a modern web development environment for PHP developpers based on Docke
 ## Install
 
 1. Be sure to have [Docker](https://hub.docker.com/?overlay=onboarding) & [docker-compose](https://docs.docker.com/compose/install/) installed
-1. `git clone ...`
+1. `git clone https://github.com/frxyt/webdevenv-php`
 1. `cd docker-webdevenv-php`
 1. `docker network create webdevenv`
 1. `docker-compose up -d`
