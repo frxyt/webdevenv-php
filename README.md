@@ -11,9 +11,26 @@ Provides a modern web development environment for PHP developpers based on Docke
 
 1. Be sure to have [Docker](https://hub.docker.com/?overlay=onboarding) & [docker-compose](https://docs.docker.com/compose/install/) installed
 1. `git clone https://github.com/frxyt/webdevenv-php`
-1. `cd docker-webdevenv-php`
+1. `cd webdevenv-php`
 1. `docker network create webdevenv`
 1. `docker-compose up -d`
+
+### Debian-based Linux distributions
+
+You need to resolve `*.localhost` domains to `127.0.0.1`, unfortunately, the good old `dnsmasq` doesn't work out-of-the-box now because of `systemd`, here are some steps to make it working:
+
+1. `sudo apt-get install dnsmasq`
+1. `sudo sed -i 's/^#\?DNS=.*$/DNS=127.0.0.53/' /etc/systemd/resolved.conf`
+1. `sudo sed -i 's/^#\?listen-address=.*$/listen-address=127.0.0.53/' /etc/dnsmasq.conf`
+1. `echo 'address=/localhost/127.0.0.1'  | sudo tee -a /etc/dnsmasq.conf`
+
+1. `sudo sed -i 's/^#\?IGNORE_RESOLVCONF=.*$/IGNORE_RESOLVCONF=yes/' /etc/default/dnsmasq`
+1. `sudo service restart dnsmasq`
+1. `sudo service restart systemd-resolved`
+
+### Windows
+
+You don't need any extra steps as Windows resolves automatically `*.localhost` domains to `127.0.0.1` !
 
 ## Update
 
