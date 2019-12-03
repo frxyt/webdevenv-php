@@ -28,9 +28,9 @@ You need to resolve `*.localhost` domains to `127.0.0.1`, unfortunately, the goo
 1. `sudo service restart dnsmasq`
 1. `sudo service restart systemd-resolved`
 
-### Windows
+### Mac OS & Windows
 
-You don't need any extra steps as Windows resolves automatically `*.localhost` domains to `127.0.0.1` !
+You don't need any extra steps as these OS resolve automatically `*.localhost` domains to `127.0.0.1` !
 
 ## Update
 
