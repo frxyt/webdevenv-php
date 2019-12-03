@@ -33,7 +33,7 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.webdevenv-maildev.entrypoints=http"
       - "traefik.http.routers.webdevenv-maildev.rule=Host(`maildev.webdevenv.localhost`)"
-      - "traefik.http.services.webdevenv-maildev.loadbalancer.server.port=8080"
+      - "traefik.http.services.webdevenv-maildev.loadbalancer.server.port=80"
     networks: 
       - webdevenv
     restart: always
