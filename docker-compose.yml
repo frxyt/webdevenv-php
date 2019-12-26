@@ -11,6 +11,7 @@ networks:
 
 volumes:
   xhgui-vendor:
+    name: webdevenv-xhgui-vendor
 
 services:
 
