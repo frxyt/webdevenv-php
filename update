@@ -1,5 +1,8 @@
 #!/bin/bash
 
 git pull
-type docker-compose.exe > /dev/null 2>&1 && docker-compose.exe down || docker-compose down
-type docker-compose.exe > /dev/null 2>&1 && docker-compose.exe up -d || docker-compose up -d
+type docker-compose.exe > /dev/null 2>&1 && docker_compose=docker-compose.exe || docker_compose=docker-compose
+type docker.exe > /dev/null 2>&1 && docker=docker.exe || docker=docker
+${docker_compose} down
+${docker} network inspect webdevenv > /dev/null 2>&1 || ${docker} network create webdevenv
+${docker_compose} up -d
