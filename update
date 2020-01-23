@@ -1,0 +1,5 @@
+#!/bin/bash
+
+git pull
+type docker-compose.exe > /dev/null 2>&1 && docker-compose.exe down || docker-compose down
+type docker-compose.exe > /dev/null 2>&1 && docker-compose.exe up -d || docker-compose up -d

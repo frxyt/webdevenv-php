@@ -38,6 +38,8 @@ You don't need any extra steps as these OS resolve automatically `*.localhost` d
 1. `docker-compose down`
 1. `docker-compose up -d`
 
+Or just run: `./update` (Mac OS & Linux), `bash ./update` (Windows)
+
 ## Usage
 
 ### Accessing tools
