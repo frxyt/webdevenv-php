@@ -55,6 +55,9 @@ services:
       - --providers.docker=true
       - --providers.docker.exposedbydefault=false
       - --providers.docker.network=webdevenv
+      - --providers.file=true
+      - --providers.file.directory=/etc/traefik/conf
+      - --providers.file.watch=true
     labels:
       - traefik.enable=true
       - traefik.http.routers.webdevenv-traefik.entrypoints=http
@@ -67,6 +70,8 @@ services:
       - 127.0.0.1:443:443
     restart: always
     volumes:
+      - ./etc/traefik/cert:/etc/traefik/cert:ro
+      - ./etc/traefik/conf:/etc/traefik/conf:ro
       - ./var/log/traefik:/var/log/traefik:rw
       - //var/run/docker.sock:/var/run/docker.sock:ro
 

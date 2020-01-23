@@ -1,2 +1,4 @@
 /docker-compose.override.yml
+/etc/traefik/cert
+/etc/traefik/conf
 /var
